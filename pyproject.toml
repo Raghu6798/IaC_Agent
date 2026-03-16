@@ -1,0 +1,22 @@
+[project]
+name = "iac-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.3.1",
+    "langchain>=1.2.12",
+    "langchain-cerebras>=0.8.2",
+    "langchain-google-genai>=4.2.1",
+    "langchain-mcp-adapters>=0.2.1",
+    "langgraph>=1.1.2",
+    "langgraph-checkpoint-sqlite>=3.0.3",
+    "loguru>=0.7.3",
+    "mcp>=1.26.0",
+    "opensandbox-code-interpreter>=0.1.1",
+    "opensandbox-server>=0.1.7",
+    "playwright>=1.58.0",
+    "python-dotenv>=1.2.2",
+    "rich>=14.3.3",
+]
