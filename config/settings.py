@@ -1,9 +1,9 @@
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from dotenv import load_dotev 
+from dotenv import load_dotenv 
 
-load_dotev()
+load_dotenv()
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
