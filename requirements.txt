@@ -1,0 +1,16 @@
+aiohttp
+click
+deepagents
+langchain
+langchain-cerebras
+langchain-google-genai
+langchain-mcp-adapters
+langchain-mistralai
+langgraph
+langgraph-checkpoint-sqlite
+loguru
+openshell
+playwright
+python-dotenv
+rich
+pymux

@@ -3,11 +3,12 @@ import click
 from utils.logger import log
 from utils.ui import print_welcome_banner
 from config import settings
-from agent.graph import run_IAC_agent
+from agent.graph import run_IaNL_agent
 
 @click.command()
-def main():
-    """Entry point for the IAC Agent."""
+@click.option("--session-id", default=None, help="The session ID to use for the conversation.")
+def main(session_id: str):
+    """Entry point for IaNL (Infrastructure as Natural Language)."""
     
     # Credentials are automatically handled by settings if .env is present
     if not settings.AWS_ACCESS_KEY_ID:
@@ -20,7 +21,7 @@ def main():
 
     print_welcome_banner()
     
-    asyncio.run(run_IAC_agent())
+    asyncio.run(run_IaNL_agent(thread_id=session_id))
 
 if __name__ == "__main__":
     main()

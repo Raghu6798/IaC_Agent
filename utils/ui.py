@@ -13,19 +13,40 @@ def show_code(code: str, lang: str = "python"):
 
 def print_welcome_banner():
     banner_text = Text(
-"""██╗ █████╗  ██████╗      █████╗  ██████╗ ███████╗███╗   ██╗████████╗
-██║██╔══██╗██╔════╝     ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝
-██║███████║██║          ███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║
-██║██╔══██║██║          ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║
-██║██║  ██║╚██████╗     ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║
-╚═╝╚═╝  ╚═╝ ╚═════╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝""",
+"""
+██╗  █████╗   ███╗   ██╗ ██╗     
+██║  ██╔══██╗ ████╗  ██║ ██║     
+██║  ███████║ ██╔██╗ ██║ ██║     
+██║  ██╔══██║ ██║╚██╗██║ ██║     
+██║  ██║  ██║ ██║ ╚████║ ███████╗
+╚═╝  ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚══════╝
+
+ █████╗  ██████╗ ███████╗███╗   ██╗████████╗
+██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝
+███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║   
+██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║   
+██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║   
+╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝
+
+⠀⠀⣠⣤⣤⣤⣤⡀⠀⢠⣤⠀⠀⠀⢠⣤⡄⠀⠀⢀⣤⡄⠀⣠⣤⣶⣤⣄⠀⠀
+⠀⠈⠉⠉⠀⠈⢹⣿⡆⠈⣿⣇⠀⠀⣾⣿⣇⠀⠀⣼⡿⠁⢸⣿⠉⠀⠈⠉⠁⠀
+⠀⠀⣠⣤⣶⣦⣴⣿⡇⠀⠹⣿⠀⢰⡿⠈⣿⡄⢀⣿⠃⠀⠘⠻⣷⣶⣤⣄⠀⠀
+⠀⢸⣿⠁⠀⠀⢠⣿⡇⠀⠀⢿⣇⣼⡇⠀⢹⣧⣼⡟⠀⠀⠀⠀⠀⠀⠉⣿⡇⠀
+⠀⠘⢿⣶⣶⡶⠟⢿⠷⠀⠀⠘⣿⡿⠀⠀⠘⣿⡿⠁⠀⠀⠲⣶⣶⣶⣶⠿⠃⠀
+
+⠢⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠚⠛⠛⢿⣷
+⠀⠈⠙⠿⣶⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣴⠾⠀⣸⡏
+⠀⠀⠀⠀⠈⠉⠛⠿⢿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣶⣿⠿⠿⠛⠉⠠⠋⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠙⠛⠛⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+
+""",
 style="#93C572"
 )
     welcome_message = Markdown(
 """
-### Welcome to IaC Agent
+### Welcome to IaNL (Infrastructure as Natural Language)
 This tool combines AI-powered cloud architecture analysis with secure, production-grade 
-Infrastructure-as-Code generation — right from your terminal.
+Infrastructure-as-Code generation — powered by Natural Language interface.
 
 ---
 ### Key Capabilities:
@@ -71,8 +92,8 @@ Simply describe your architecture or paste a path to your diagram. Examples:
     panel_content = Group(banner_text, welcome_message)
     panel = Panel(
         panel_content,
-        title="[bold orange1] IAC Agent  [/bold orange1]  [dim]v0.1.0[/dim] ",
-        subtitle="[orange1]AI-Powered Dev Assistant[/orange1]",
+        title="[bold orange1] IaNL  [/bold orange1]  [dim]v0.1.0[/dim] ",
+        subtitle="[orange1]Infrastructure as Natural Language[/orange1]",
         border_style="orange1",
         width=140,
         expand=True,
@@ -91,7 +112,7 @@ def show_error(msg):
 def show_info(msg):
     console.print(f"[cyan]{msg}[/cyan]")
 
-def print_agent_response(text, title: str = "Iac Agent"):
+def print_agent_response(text, title: str = "IaNL"):
     """Display agent output inside a Rich panel box with orange color"""
     if isinstance(text, list):
         text_parts = []
