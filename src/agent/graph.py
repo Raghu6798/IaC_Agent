@@ -13,7 +13,6 @@ from utils.ui import console
 from rich.live import Live
 from core.prompts import SYSTEM_PROMPT
 from config.settings import settings
-from core.llm import ChatQwen
 from tools.file_tools import read_image, inspect_a_file,refactoring_code,write_code
 from tools.shell_tools import run_shell_commands
 
@@ -21,8 +20,6 @@ mistral_small_4 = ChatMistralAI(
             model="mistral-small-latest",
             api_key=settings.MISTRAL_API_KEY,
 )
-
-mistral_small_4 = ChatQwen()
 
 class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], add_messages]
