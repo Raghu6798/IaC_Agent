@@ -1,9 +1,12 @@
 import asyncio
 import click
+
+
+from config.settings import settings
+from agent.graph import run_IaNL_agent
+
 from utils.logger import log
 from utils.ui import print_welcome_banner
-from config import settings
-from agent.graph import run_IaNL_agent
 
 EPILOG = """
 \b
