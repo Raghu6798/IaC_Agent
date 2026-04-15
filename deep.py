@@ -20,6 +20,7 @@ from rich.layout import Layout
 from rich.live import Live
 
 from mistralai.client import Mistral
+from memvid_sdk import use
 
 from deepagents import create_deep_agent
 from deepagents.middleware.skills import SkillsMiddleware
@@ -29,13 +30,12 @@ from deepagents.backends.composite import CompositeBackend
 from deepagents.backends.filesystem import FilesystemBackend
 from deepagents.backends.store import StoreBackend
 
-from langgraph.store.postgres import PostgresStore
 from langchain_core.tools import tool
 
 from core.llm import ChatQwen
 from utils.ui import print_welcome_banner, show_info, print_agent_response
 from tools.shell_tools import run_shell_commands
-from tools.file_tools import inspect_a_file,write_file
+from tools.file_tools import inspect_a_file,write_code,refactoring_code
 from config.settings import settings
 from langchain_mistralai import ChatMistralAI
 from langchain_cerebras import ChatCerebras
@@ -231,13 +231,8 @@ async def async_main():
     
     console = Console()
     
-    store_ctx = PostgresStore.from_conn_string(os.environ["DATABASE_URL"])
-    
-    # Run synchronous Postgres setup in executor to not block event loop
     loop = asyncio.get_running_loop()
-    store = await loop.run_in_executor(io_executor, store_ctx.__enter__)
-    await loop.run_in_executor(io_executor, store.setup)
-    
+  
     # Use Async Context Manager for OpenShellBackend setup
     async with OpenShellBackend(sandbox_name="sterling-hake") as sandbox_backend:
         mistral_small_4 = ChatMistralAI(
@@ -248,8 +243,7 @@ async def async_main():
         agent = create_deep_agent(
             model=mistral_small_4,
             backend=partial(create_hybrid_backend, sandbox_backend=sandbox_backend),
-            store=store,
-            tools = [encode_image,inspect_a_file,write_file],
+            tools = [encode_image,inspect_a_file,write_code,refactoring_code] + mem_tools,
             system_prompt=SYSTEM_PROMPT
         )
         

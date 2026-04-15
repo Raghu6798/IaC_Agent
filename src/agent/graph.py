@@ -22,6 +22,8 @@ mistral_small_4 = ChatMistralAI(
             api_key=settings.MISTRAL_API_KEY,
 )
 
+mistral_small_4 = ChatQwen()
+
 class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], add_messages]
 

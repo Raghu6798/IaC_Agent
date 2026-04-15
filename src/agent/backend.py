@@ -53,5 +53,5 @@ class OpenShellBackend(BaseSandbox):
 
 
 if __name__ == "__main__":
-    backend = OpenShellBackend("sterling-hake")
-    pri
+    backend = OpenShellBackend("native-starfish")
+    print(backend.execute("ls -la"))

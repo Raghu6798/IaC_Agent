@@ -1,24 +1,34 @@
 [project]
 name = "ianl-agent"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.5"
+description = "IaNL: Infrastructure as Natural Language — AI agent that provisions AWS resources from plain English prompts using OpenTofu/Terraform."
 readme = "README.md"
 requires-python = ">=3.12"
+license = { text = "MIT" }
+keywords = ["infrastructure", "aws", "terraform", "opentofu", "llm", "agent", "langgraph"]
 dependencies = [
     "aiohttp>=3.13.3",
     "click>=8.3.1",
     "deepagents>=0.4.12",
+    "deepeval>=3.9.5",
     "langchain>=1.2.12",
-    "langchain-cerebras>=0.8.2",
-    "langchain-google-genai>=4.2.1",
-    "langchain-mcp-adapters>=0.2.1",
-    "langchain-mistralai>=1.1.2",
-    "langgraph>=1.1.2",
+    "langgraph[postgres]>=1.1.2",
     "langgraph-checkpoint-sqlite>=3.0.3",
-    "loguru>=0.7.3",
-    "mcp>=1.26.0",
+    "memvid-sdk>=2.0.159",
+    "mistralai>=2.3.1",
     "pandas>=3.0.2",
-    "playwright>=1.58.0",
     "python-dotenv>=1.2.2",
     "rich>=14.3.3",
 ]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agent*", "core*", "config*", "sandboxes*", "evals*", "tools*", "utils*"]
+exclude = ["assets*", "*.tests*", "__pycache__*"]
