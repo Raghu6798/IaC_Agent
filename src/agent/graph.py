@@ -1,4 +1,7 @@
 import uuid, asyncio
+import os 
+from dotenv import load_dotenv
+load_dotenv()
 from typing import TypedDict, Annotated, List
 from langchain_core.messages import BaseMessage, SystemMessage,ToolMessage
 from langchain_mistralai import ChatMistralAI
@@ -16,9 +19,11 @@ from config.settings import settings
 from tools.file_tools import read_image, inspect_a_file,refactoring_code,write_code
 from tools.shell_tools import run_shell_commands
 
+load_dotenv()
+
 mistral_small_4 = ChatMistralAI(
             model="mistral-small-latest",
-            api_key=settings.MISTRAL_API_KEY,
+            api_key=os.getenv("MISTRAL_API_KEY"),
 )
 
 class AgentState(TypedDict):
