@@ -1,6 +1,6 @@
 [project]
 name = "ianl-agent"
-version = "0.1.7"
+version = "0.1.8"
 description = "IaNL: Infrastructure as Natural Language — AI agent that provisions AWS resources from plain English prompts using OpenTofu/Terraform."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -20,6 +20,9 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "rich>=14.3.3",
 ]
+
+[project.scripts]
+ianl-agent = "main:main"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
