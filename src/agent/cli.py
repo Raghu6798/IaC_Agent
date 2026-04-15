@@ -1,12 +1,73 @@
 import asyncio
 import click
-
+import os
 
 from config.settings import settings
-from agent.graph import run_IaNL_agent
 
 from utils.logger import log
-from utils.ui import print_welcome_banner
+from utils.ui import print_welcome_banner, console, show_success, show_error
+from rich.panel import Panel
+from rich.prompt import Prompt
+
+def setup_api_keys():
+    """
+    Handles the setup for Mistral API keys and AWS credentials.
+    Checks environment variables first, then prompts the user if a key is missing.
+    """
+    # Sync settings to os environ if loaded from .env
+    if settings.MISTRAL_API_KEY and not os.getenv("MISTRAL_API_KEY"):
+        os.environ["MISTRAL_API_KEY"] = settings.MISTRAL_API_KEY
+    if settings.AWS_ACCESS_KEY_ID and not os.getenv("AWS_ACCESS_KEY_ID"):
+        os.environ["AWS_ACCESS_KEY_ID"] = settings.AWS_ACCESS_KEY_ID
+    if settings.AWS_SECRET_ACCESS_KEY and not os.getenv("AWS_SECRET_ACCESS_KEY"):
+        os.environ["AWS_SECRET_ACCESS_KEY"] = settings.AWS_SECRET_ACCESS_KEY
+
+    # --- Handle Mistral API Key ---
+    if not os.getenv("MISTRAL_API_KEY"):
+        console.print(
+            Panel.fit(
+                "[bold]🔑 Mistral API Key Required[/bold]\n\n"
+                "IaNL uses Mistral AI for intelligence. Please provide your API key.\n"
+                "(get yours at https://console.mistral.ai/)",
+                border_style="cyan"
+            )
+        )
+        mistral_api_key = Prompt.ask(
+            "🔑 [bold green]Paste your Mistral API key[/bold green]", password=True
+        )
+        os.environ["MISTRAL_API_KEY"] = mistral_api_key
+        settings.MISTRAL_API_KEY = mistral_api_key
+        show_success("Mistral API key validated and set for this session.")
+    else:
+        show_success("Mistral API key found in environment variables.")
+
+    # --- Handle AWS Credentials ---
+    if not os.getenv("AWS_ACCESS_KEY_ID") or not os.getenv("AWS_SECRET_ACCESS_KEY"):
+        console.print(
+            Panel.fit(
+                "[bold]☁️ AWS Credentials Required[/bold]\n\n"
+                "IaNL needs AWS credentials to provision your infrastructure.",
+                border_style="orange1"
+            )
+        )
+        if not os.getenv("AWS_ACCESS_KEY_ID"):
+            aws_access_key = Prompt.ask(
+                "☁️ [bold yellow]Paste your AWS Access Key ID[/bold yellow]", password=True
+            )
+            os.environ["AWS_ACCESS_KEY_ID"] = aws_access_key
+            settings.AWS_ACCESS_KEY_ID = aws_access_key
+            
+        if not os.getenv("AWS_SECRET_ACCESS_KEY"):
+            aws_secret_key = Prompt.ask(
+                "☁️ [bold yellow]Paste your AWS Secret Access Key[/bold yellow]", password=True
+            )
+            os.environ["AWS_SECRET_ACCESS_KEY"] = aws_secret_key
+            settings.AWS_SECRET_ACCESS_KEY = aws_secret_key
+            
+        show_success("AWS credentials set for this session.")
+    else:
+        show_success("AWS credentials found in environment variables.")
+
 
 EPILOG = """
 \b
@@ -67,23 +128,11 @@ def main(session_id: str):
     the prompts automatically.
     """
 
-    if not settings.MISTRAL_API_KEY:
-        mistral_key = click.prompt(
-            "Enter Mistral API Key (get yours at https://console.mistral.ai/)",
-            hide_input=True,
-        )
-        settings.MISTRAL_API_KEY = mistral_key
-
-    if not settings.AWS_ACCESS_KEY_ID:
-        aws_access = click.prompt("Enter AWS Access Key ID", hide_input=True)
-        settings.AWS_ACCESS_KEY_ID = aws_access
-
-    if not settings.AWS_SECRET_ACCESS_KEY:
-        aws_secret = click.prompt("Enter AWS Secret Access Key", hide_input=True)
-        settings.AWS_SECRET_ACCESS_KEY = aws_secret
+    setup_api_keys()
 
     print_welcome_banner()
 
+    from agent.graph import run_IaNL_agent
     asyncio.run(run_IaNL_agent(thread_id=session_id))
 
 
