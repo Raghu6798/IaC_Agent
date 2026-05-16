@@ -130,6 +130,7 @@ def write_code(code: str, file_path: str):
     """
     try:
         show_info(f"Writing code to {file_path}")
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(code)
         show_info(f"Successfully wrote code to {file_path}")
